@@ -65,11 +65,13 @@ fi
 popd > /dev/null
 rm -rf "${dir}"
 
-# copy in our overrides file if it doesn't already exist
-if ! test -f /etc/systemd/system/tailscaled.service.d/override.conf; then
-  mkdir -p /etc/systemd/system/tailscaled.service.d
-  cp -rf override.conf /etc/systemd/system/tailscaled.service.d/override.conf
-fi
+# copy our extension override
+mkdir -p /etc/systemd/system/tailscaled.service.d
+cp -rf service-override.conf /etc/systemd/system/tailscaled.service.d/extension.conf
+
+# copy our "please don't delete us" file
+mkdir -p /etc/atomic-update.conf.d/
+cp -rf atomic-update.conf /etc/atomic-update.conf.d/tailscale.conf
 
 echo "done."
 
