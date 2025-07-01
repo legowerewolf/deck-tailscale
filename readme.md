@@ -17,7 +17,7 @@ This is the repo and install method I use on my own Deck.
 ## Installing Tailscale
 
 1. Clone this repo to your Deck.
-2. Run `sudo install.sh` to install Tailscale (or update the existing
+2. Run `sudo ./install.sh` to install Tailscale (or update the existing
    installation).
 3. Run `sudo tailscale up --qr --operator=deck --ssh` to have Tailscale generate
    a login QR code. Scan the code with your phone and authenticate with
@@ -31,7 +31,7 @@ This is the repo and install method I use on my own Deck.
 > you're done.
 
 1. Git fetch and pull to make sure you're up to date.
-2. Run `sudo install.sh` again.
+2. Run `sudo ./install.sh` again.
 
 This process overwrites the existing binaries, service file, and systemd
 extension override, so it's not recommended to tweak those files directly.
