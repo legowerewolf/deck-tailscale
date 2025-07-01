@@ -20,7 +20,6 @@ automatically on boot (no need to enter desktop mode).
 > Tailscale SSH, as it seems to be locked in a chroot jail. You should start and
 > connect through the standard SSH server instead, but remember to stop it when
 > you're done.
-> [Suggestions for how to fix this are welcomed.](https://github.com/legowerewolf/deck-tailscale/issues/2)
 
 1. Git fetch and pull to make sure you're up to date.
 2. Run `sudo install.sh` again.
