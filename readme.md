@@ -5,6 +5,15 @@ This process is derived from the
 to make the process smoother and produce an installation that comes up
 automatically on boot (no need to enter desktop mode).
 
+## What's up with this and tailscale-dev/deck-tailscale?
+
+I started this project based on the blog post linked above. It got adopted into
+the Tailscale community organization, then my write access got removed and I
+couldn't make updates. And the install method changed to something messier. So I
+forked it back and unlinked it.
+
+This is the repo and install method I use on my own Deck.
+
 ## Installing Tailscale
 
 1. Clone this repo to your Deck.
