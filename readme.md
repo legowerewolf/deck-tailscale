@@ -7,8 +7,8 @@ automatically on boot (no need to enter desktop mode).
 
 ## Features
 
-- Places files ["properly"](https://specifications.freedesktop.org/fhs/) in
-  /usr/bin and /usr/sbin without disabling the SteamOS readonly seal
+- Places files properly (per other-distro installs) in `/usr/bin` and
+  `/usr/sbin` without disabling the SteamOS readonly seal
 - Survives system updates
 
 ## What's up with this and tailscale-dev/deck-tailscale?
