@@ -9,6 +9,27 @@ source /etc/os-release
 # -o pipefail: the return value of a pipeline is the status of the last command to exit with a non-zero status, or zero if no command exited with a non-zero status
 set -eu -o pipefail
 
+# Tarball keys are Go GOARCH names, not uname -m names:
+detect_goarch() {
+  case "$(uname -m)" in
+    x86_64|amd64)                     echo amd64 ;;
+    aarch64|arm64)                    echo arm64 ;;
+    armv8l|armv7*|armv6*|armv5*|arm)  echo arm ;;
+    i386|i486|i586|i686)              echo 386 ;;
+    riscv64)                          echo riscv64 ;;
+    mips64el)                         echo mips64le ;;
+    mipsel)                           echo mipsle ;;
+    mips64)                           echo mips64 ;;
+    mips)                             echo mips ;;
+    *) return 1 ;;
+  esac
+}
+
+arch="$(detect_goarch)" || {
+  echo "error: unsupported architecture '$(uname -m)'" >&2
+  exit 1
+}
+
 # save the current directory silently
 pushd . > /dev/null
 
@@ -19,10 +40,14 @@ cd "${dir}"
 echo -n "Getting version..."
 
 # get info for the latest version of Tailscale
-tarball="$(curl -s 'https://pkgs.tailscale.com/stable/?mode=json' | jq -r .Tarballs.amd64)"
-version="$(echo ${tarball} | cut -d_ -f2)"
+tarball="$(curl -s 'https://pkgs.tailscale.com/stable/?mode=json' | jq -r --arg a "$arch" '.Tarballs[$a] // empty')"
+test -n "$tarball" || {
+  echo "error: no tarball published for GOARCH=$arch" >&2
+  exit 1
+}
+version="$(echo "${tarball}" | cut -d_ -f2)"
 
-echo "got ${version}."
+echo "got ${version} (${arch})."
 
 echo -n "Downloading..."
 
@@ -35,7 +60,7 @@ echo -n "Installing..."
 
 # extract the tailscale binaries
 tar xzf tailscale.tgz
-tar_dir="$(echo ${tarball} | cut -d. -f1-3)"
+tar_dir="${tarball%.tgz}"
 test -d $tar_dir
 
 # create our target directory structure
